@@ -8,10 +8,10 @@ namespace XIVApi.Data
         public int Page { get; set; }
 
         [JsonProperty("PageNext")]
-        public int PageNext { get; set; }
+        public int? PageNext { get; set; }
 
         [JsonProperty("PagePrev")]
-        public int PagePrev { get; set; }
+        public int? PagePrev { get; set; }
 
         [JsonProperty("PageTotal")]
         public int PageTotal { get; set; }
