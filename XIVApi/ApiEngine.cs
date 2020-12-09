@@ -1,26 +1,45 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using XIVApi.Data;
 
 namespace XIVApi
 {
     public interface IApiEngine
     {
-
+        Task<FreeCompanySearchResult[]> SearchFreeCompany(string name, Server server = Server.All);
     }
 
-    public class ApiEngine : IApiEngine
+    public class ApiEngine : IApiEngine, IDisposable
     {
-        public string ApiKey { get; }
+        private string _apiKey;
+        private HttpClient _client;
 
-        public ApiEngine(string apiKey = null)
+        public ApiEngine(string apiKey = null, string apiAddress = null)
         {
-            ApiKey = apiKey;
+            _apiKey = apiKey;
+            _client = new HttpClient
+            {
+                BaseAddress = new Uri(apiAddress ?? "https://xivapi.com/")
+            };
         }
 
-        public Task<FreeCompanySearchResult[]> SearchFreeCompany(string name, Server server = Server.All)
+        public async Task<FreeCompanySearchResult[]> SearchFreeCompany(string name, Server server = Server.All)
         {
-            return null;
+            var result = await MakeRequest<Page<FreeCompanySearchResult>>(new Uri(""));
+            return result.Results;
+        }
+
+        public void Dispose()
+        {
+            _client?.Dispose();
+        }
+
+        private async Task<T> MakeRequest<T>(Uri uri)
+        {
+            var json = await _client.GetStringAsync(uri);
+            return JsonConvert.DeserializeObject<T>(json);
         }
     }
 }
