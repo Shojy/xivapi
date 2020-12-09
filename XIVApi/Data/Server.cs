@@ -1,7 +1,13 @@
-﻿namespace XIVApi.Data
+﻿using System;
+
+namespace XIVApi.Data
 {
+    [Flags]
     public enum Server
     {
+        None,
+        All,
+
         Adamantoise,
         Cactuar,
         Faerie,

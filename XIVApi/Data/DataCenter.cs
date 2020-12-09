@@ -1,7 +1,11 @@
-﻿namespace XIVApi.Data
+﻿using System;
+
+namespace XIVApi.Data
 {
+    [Flags]
     public enum DataCenter
     {
+        None,
         Elemental,
         Gaia,
         Mana,
