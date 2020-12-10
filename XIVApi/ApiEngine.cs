@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using Newtonsoft.Json;
 using XIVApi.Data;
 
@@ -27,7 +28,9 @@ namespace XIVApi
 
         public async Task<FreeCompanySearchResult[]> SearchFreeCompany(string name, Server server = Server.All)
         {
-            var result = await MakeRequest<Page<FreeCompanySearchResult>>(new Uri(""));
+            var searchUri = $"/freecompany/search?name={name}{(server != Server.All? $"&server={server}" : "")}";
+            
+            var result = await MakeRequest<Page<FreeCompanySearchResult>>(searchUri);
             return result.Results;
         }
 
@@ -36,7 +39,7 @@ namespace XIVApi
             _client?.Dispose();
         }
 
-        private async Task<T> MakeRequest<T>(Uri uri)
+        private async Task<T> MakeRequest<T>(string uri)
         {
             var json = await _client.GetStringAsync(uri);
             return JsonConvert.DeserializeObject<T>(json);

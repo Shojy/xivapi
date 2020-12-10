@@ -2,11 +2,9 @@
 
 namespace XIVApi.Data
 {
-    [Flags]
-    public enum Server
+    public enum Server : uint
     {
         None,
-        All,
 
         Adamantoise,
         Cactuar,
@@ -40,6 +38,7 @@ namespace XIVApi.Data
         Moogle,
         Omega,
         Ragnarok,
+        Spriggan,
 
         Lich,
         Odin,
@@ -80,6 +79,10 @@ namespace XIVApi.Data
         Masamune,
         Pandemonium,
         Shinryu,
-        Titan
+        Titan,
+
+        Twintania,
+
+        All,
     }
 }
